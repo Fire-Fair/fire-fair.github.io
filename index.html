@@ -1,15 +1,724 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0; url=https://firefair.onrender.com/">
-    
-    <script type="text/javascript">
-        window.location.href = "https://firefair.onrender.com/";
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FireFair — Equity-Adjusted Multi-Agent Triage for Wildfire Ignition Forecasting</title>
+<meta name="description" content="FireFair audits a wildfire ignition forecaster by the CDC/ATSDR Social Vulnerability Index, reduces the equal-opportunity gap by 75% at a 1.6pp F1 cost, and routes marginal signals into visible multi-agent verification. GoodIT '26, Pisa, Italy.">
+<link rel="canonical" href="https://fire-fair.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FireFair — Equity-Adjusted Multi-Agent Triage for Wildfire Ignition Forecasting">
+<meta property="og:description" content="A three-layer system that makes fairness an operational routing signal, not a post-hoc report. GoodIT '26 · Pisa, Italy.">
+<meta property="og:url" content="https://fire-fair.github.io/">
+<meta property="og:image" content="https://fire-fair.github.io/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --smoke:#181310;
+  --smoke-2:#241c16;
+  --paper:#f6efe2;
+  --card:#fffcf4;
+  --ink:#241d15;
+  --muted:#70655a;
+  --line:#e2d7c3;
+  --ember:#e0450e;
+  --ember-deep:#b93407;
+  --amber:#f09d1f;
+  --q1:#7f1d1d; --q2:#a52a22; --q3:#d04b28; --q4:#eb8f2f; --q5:#f5d878;
+  --serif:"Newsreader",Georgia,serif;
+  --display:"Fraunces",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:1.1rem;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--ember);color:#fff}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono)}
+
+/* ---------- quintile ramp motif ---------- */
+.qbar{display:flex;height:6px;width:100%;border-radius:99px;overflow:hidden}
+.qbar i{flex:1}
+.qbar i:nth-child(1){background:var(--q1)}
+.qbar i:nth-child(2){background:var(--q2)}
+.qbar i:nth-child(3){background:var(--q3)}
+.qbar i:nth-child(4){background:var(--q4)}
+.qbar i:nth-child(5){background:var(--q5)}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(1100px 480px at 78% -10%, rgba(224,69,14,.32), transparent 62%),
+    radial-gradient(700px 380px at 12% 108%, rgba(240,157,31,.14), transparent 60%),
+    var(--smoke);
+  color:#f4ece0;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:
+    linear-gradient(rgba(244,236,224,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,236,224,.045) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(900px 600px at 60% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(900px 600px at 60% 0%, #000 30%, transparent 75%);
+}
+.topbar{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;
+}
+.wordmark{font-family:var(--mono);font-weight:600;font-size:1rem;letter-spacing:.04em;color:#f4ece0;text-decoration:none}
+.wordmark .flame{margin-right:.45em}
+.topnav{display:flex;gap:26px}
+.topnav a{
+  color:rgba(244,236,224,.72);text-decoration:none;
+  font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;
+}
+.topnav a:hover{color:var(--amber)}
+.hero-inner{position:relative;z-index:2;padding:64px 0 0}
+.conf-chip{
+  display:inline-flex;align-items:center;gap:.7em;
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);
+  border:1px solid rgba(240,157,31,.4);border-radius:99px;
+  padding:.45em 1.1em;
+}
+.conf-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1.title{
+  font-family:var(--display);
+  font-optical-sizing:auto;
+  font-weight:560;
+  font-size:clamp(2.3rem, 5.4vw, 4.1rem);
+  line-height:1.06;
+  letter-spacing:-.015em;
+  margin:30px 0 0;
+  max-width:19ch;
+}
+h1 .grad{
+  background:linear-gradient(92deg, var(--ember) 5%, var(--amber) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.tagline{
+  margin-top:24px;max-width:56ch;
+  font-size:clamp(1.05rem, 1.6vw, 1.25rem);
+  color:rgba(244,236,224,.78);
+  font-weight:300;
+}
+.tagline b{color:#f4ece0;font-weight:500}
+.authors{margin-top:34px;font-size:1.02rem;line-height:1.9;max-width:64ch;color:rgba(244,236,224,.9)}
+.authors .au{white-space:nowrap}
+.authors sup{color:var(--amber);font-family:var(--mono);font-size:.68em}
+.affil{margin-top:6px;font-size:.88rem;color:rgba(244,236,224,.55);font-family:var(--mono)}
+.affil sup{color:var(--amber)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.btn{
+  display:inline-flex;align-items:center;gap:.55em;
+  font-family:var(--mono);font-size:.88rem;font-weight:500;letter-spacing:.02em;
+  padding:.8em 1.5em;border-radius:10px;text-decoration:none;
+  border:1px solid rgba(244,236,224,.25);color:#f4ece0;
+  transition:transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px);border-color:rgba(244,236,224,.55)}
+.btn.primary{
+  background:linear-gradient(94deg, var(--ember-deep), var(--ember) 55%, #ef6a1e);
+  border-color:transparent;box-shadow:0 8px 26px -8px rgba(224,69,14,.65);
+}
+.btn.primary:hover{box-shadow:0 12px 32px -8px rgba(224,69,14,.8)}
+.hero-qbar{margin-top:60px}
+.hero-qbar .qbar{height:8px;border-radius:0}
+
+/* hero screenshot overlapping into paper section */
+.hero-shot{position:relative;z-index:3;margin-top:-2px;background:linear-gradient(var(--smoke) 55%, var(--paper) 55%)}
+.browser{
+  border-radius:14px;overflow:hidden;
+  border:1px solid rgba(24,19,16,.9);
+  box-shadow:0 40px 80px -30px rgba(24,19,16,.55), 0 12px 30px -12px rgba(24,19,16,.4);
+  background:#0f0c0a;
+}
+.browser .chrome{
+  display:flex;align-items:center;gap:10px;
+  background:#0f0c0a;padding:11px 16px;
+}
+.browser .chrome .dots{display:flex;gap:6px}
+.browser .chrome .dots i{width:11px;height:11px;border-radius:50%;display:block}
+.browser .chrome .dots i:nth-child(1){background:#ff5f57}
+.browser .chrome .dots i:nth-child(2){background:#febc2e}
+.browser .chrome .dots i:nth-child(3){background:#28c840}
+.browser .chrome .url{
+  flex:1;text-align:center;font-family:var(--mono);font-size:.74rem;color:rgba(244,236,224,.5);
+  background:rgba(244,236,224,.07);border-radius:6px;padding:.3em 1em;max-width:420px;margin:0 auto;
+}
+.browser img{display:block;width:100%;height:auto}
+
+/* ---------- stat band ---------- */
+.stats{padding:64px 0 8px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:34px 26px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:none}
+.stat .num{
+  font-family:var(--display);font-weight:500;font-size:clamp(2.2rem,4vw,3rem);line-height:1;
+  color:var(--ember);font-variant-numeric:tabular-nums;
+}
+.stat .num small{font-size:.45em;font-family:var(--mono);color:var(--muted);font-weight:400}
+.stat .lbl{margin-top:12px;font-size:.95rem;color:var(--muted);line-height:1.45}
+
+/* ---------- sections ---------- */
+section{padding:76px 0 12px}
+.kicker{
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ember);display:flex;align-items:center;gap:14px;
+}
+.kicker::after{content:"";height:1px;flex:0 0 46px;background:var(--ember);opacity:.5}
+h2{
+  font-family:var(--display);font-weight:560;letter-spacing:-.01em;
+  font-size:clamp(1.7rem,3.2vw,2.5rem);line-height:1.14;
+  margin:16px 0 0;max-width:24ch;
+}
+.lede{margin-top:20px;max-width:66ch;color:#463d31;font-size:1.12rem}
+.lede+.lede{margin-top:14px}
+.lede .m, td .m, .stat .m{font-family:var(--mono);font-size:.92em}
+a.inline{color:var(--ember-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a.inline:hover{color:var(--ember)}
+
+/* recall bar chart */
+.chart-card{
+  margin-top:44px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:36px 38px 28px;
+}
+.chart-title{font-family:var(--mono);font-size:.82rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.chart{display:flex;align-items:flex-end;gap:4.5%;height:250px;margin-top:26px;padding-bottom:2px;border-bottom:2px solid var(--ink)}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:10px;height:100%}
+.bar .val{font-family:var(--mono);font-size:.86rem;font-weight:600}
+.bar .col{width:100%;border-radius:6px 6px 0 0;min-height:4px;transform-origin:bottom;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal:not(.on) .bar .col{transform:scaleY(0)}
+.bar:nth-child(1) .col{background:var(--q1)} .bar:nth-child(2) .col{background:var(--q2)}
+.bar:nth-child(3) .col{background:var(--q3)} .bar:nth-child(4) .col{background:var(--q4)}
+.bar:nth-child(5) .col{background:var(--q5)}
+.bar .tick{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.chart-note{margin-top:18px;font-size:.92rem;color:var(--muted);max-width:70ch}
+.gap-callout{
+  display:inline-block;margin-top:16px;font-family:var(--mono);font-size:.84rem;
+  background:rgba(224,69,14,.09);border:1px solid rgba(224,69,14,.3);color:var(--ember-deep);
+  border-radius:8px;padding:.5em 1em;
+}
+
+/* layer cards */
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.layer{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 28px;
+  position:relative;overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.layer:hover{transform:translateY(-4px);box-shadow:0 22px 44px -22px rgba(36,29,21,.3)}
+.layer .ln{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.layer h3{font-family:var(--display);font-weight:600;font-size:1.32rem;margin:10px 0 12px;letter-spacing:-.01em}
+.layer p{font-size:.98rem;color:#4c4336}
+.layer .eq{
+  margin-top:16px;font-family:var(--mono);font-size:.82rem;color:var(--ember-deep);
+  background:rgba(224,69,14,.07);border-radius:8px;padding:.6em .9em;display:inline-block;
+}
+.layer::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.layer:nth-child(1)::after{background:var(--q1)}
+.layer:nth-child(2)::after{background:var(--q3)}
+.layer:nth-child(3)::after{background:var(--q4)}
+.layer .mode{
+  position:absolute;top:26px;right:24px;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:99px;padding:.35em .8em;
+}
+
+/* figure blocks */
+figure.fig{margin:44px 0 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;overflow:hidden}
+figure.fig img{width:100%;height:auto;display:block;border-radius:8px}
+figure.fig figcaption{margin-top:16px;font-size:.9rem;color:var(--muted);line-height:1.55}
+figure.fig figcaption b{color:var(--ink)}
+
+/* agents */
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.agent{
+  border:1px solid var(--line);border-radius:16px;padding:28px;background:var(--card);
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.agent:hover{transform:translateY(-4px);box-shadow:0 22px 44px -22px rgba(36,29,21,.3)}
+.agent .glyph{font-size:1.7rem}
+.agent h3{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:14px 0 10px}
+.agent p{font-size:.96rem;color:#4c4336}
+.agent .tools{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
+.agent .tools span{
+  font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:.32em .65em;background:var(--paper);
+}
+
+/* results table */
+.tbl-wrap{margin-top:44px;overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.98rem}
+th,td{padding:16px 20px;text-align:right;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;border-bottom:1px solid var(--line);
+}
+tbody tr:first-child td{border-bottom:1px dashed var(--line);color:#5a5044}
+tbody tr.hl td{font-weight:500}
+tbody tr.hl td .delta{color:var(--ember-deep);font-family:var(--mono);font-size:.82em;margin-left:.5em}
+.tbl-cap{font-size:.9rem;color:var(--muted);margin-top:16px;max-width:72ch}
+
+/* case studies */
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
+.case{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px}
+.case .cs-tag{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);
+}
+.case h3{font-family:var(--display);font-weight:600;font-size:1.45rem;margin:12px 0 12px;letter-spacing:-.01em}
+.case p{font-size:.98rem;color:#4c4336;margin-top:10px}
+.case .keyline{
+  margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
+  font-family:var(--mono);font-size:.82rem;color:var(--ember-deep);
+}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:46px}
+.shot{
+  border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);
+  text-decoration:none;color:inherit;display:block;
+  transition:transform .22s ease, box-shadow .22s ease;
+}
+.shot:hover{transform:translateY(-5px);box-shadow:0 26px 52px -24px rgba(36,29,21,.38)}
+.shot img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line)}
+.shot .cap{padding:18px 22px}
+.shot .cap b{font-family:var(--display);font-weight:600;font-size:1.05rem;display:block}
+.shot .cap span{font-size:.88rem;color:var(--muted);display:block;margin-top:5px;line-height:1.5}
+.demo-cta{
+  margin-top:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  background:linear-gradient(96deg, var(--smoke), var(--smoke-2));
+  border-radius:18px;padding:34px 38px;color:#f4ece0;flex-wrap:wrap;
+}
+.demo-cta .t{font-family:var(--display);font-weight:560;font-size:1.5rem;letter-spacing:-.01em}
+.demo-cta .s{color:rgba(244,236,224,.6);font-size:.95rem;margin-top:6px}
+
+/* bibtex */
+.bib{
+  margin-top:44px;background:var(--smoke);border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 60px -30px rgba(24,19,16,.5);
+}
+.bib .bib-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 24px;border-bottom:1px solid rgba(244,236,224,.12);
+}
+.bib .bib-head span{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,236,224,.55)}
+.copy-btn{
+  font-family:var(--mono);font-size:.78rem;cursor:pointer;
+  background:rgba(244,236,224,.1);color:#f4ece0;border:1px solid rgba(244,236,224,.2);
+  border-radius:8px;padding:.5em 1.1em;transition:background .18s ease;
+}
+.copy-btn:hover{background:rgba(244,236,224,.2)}
+.bib pre{
+  padding:24px;overflow-x:auto;
+  font-family:var(--mono);font-size:.84rem;line-height:1.7;color:#e9dfcf;
+}
+.bib .k{color:var(--amber)} .bib .v{color:#f0b98d}
+
+/* footer */
+footer{
+  margin-top:96px;background:var(--smoke);color:rgba(244,236,224,.65);
+  padding:56px 0 44px;font-size:.92rem;
+}
+footer .cols{display:grid;grid-template-columns:2fr 1fr;gap:44px;margin-top:34px}
+footer a{color:#f4ece0;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+footer a:hover{color:var(--amber)}
+footer .sdg{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+footer .sdg span{
+  font-family:var(--mono);font-size:.7rem;border:1px solid rgba(244,236,224,.25);
+  border-radius:99px;padding:.4em .9em;letter-spacing:.04em;
+}
+footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,224,.12);font-size:.8rem;color:rgba(244,236,224,.4);line-height:1.7}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.on{opacity:1;transform:none}
+.hero .reveal{transition-duration:.9s}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .reveal:not(.on) .bar .col{transform:none}
+  html{scroll-behavior:auto}
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .layers,.agents{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 860px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat{border-left:none;border-top:1px solid var(--line)}
+  .stat:nth-child(1),.stat:nth-child(2){border-top:none}
+  .stat:nth-child(even){border-left:1px solid var(--line)}
+  .cases,.gallery{grid-template-columns:1fr}
+}
+@media (max-width: 700px){
+  body{font-size:1.03rem}
+  .topnav{display:none}
+  .layers,.agents{grid-template-columns:1fr}
+  .chart{height:190px}
+  .demo-cta{padding:28px}
+  footer .cols{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-    <p>Redirecting you now; if you are not redirected automatically, please click <a href="https://firefair.onrender.com/">here</a>.</p>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="wordmark" href="#"><span class="flame">🔥</span>FireFair</a>
+      <nav class="topnav">
+        <a href="#system">System</a>
+        <a href="#results">Results</a>
+        <a href="#cases">Case Studies</a>
+        <a href="#demo">Demo</a>
+        <a href="#bibtex">BibTeX</a>
+      </nav>
+    </div>
+
+    <div class="hero-inner">
+      <span class="conf-chip reveal"><span class="dot"></span>GoodIT ’26 &nbsp;·&nbsp; Pisa, Italy &nbsp;·&nbsp; Sept 2–4, 2026</span>
+      <h1 class="title reveal">FireFair: <span class="grad">Equity-Adjusted</span> Multi-Agent Triage for Wildfire Ignition Forecasting</h1>
+      <p class="tagline reveal">Aggregate metrics such as F<sub>1</sub> and AUROC can mask systematic under-warning of socially vulnerable communities. FireFair audits a California wildfire forecaster by the CDC/ATSDR Social Vulnerability Index — then turns that audit into <b>an operational routing signal</b> with a chat-based multi-agent verification layer whose tool calls are visible to dispatchers.</p>
+
+      <p class="authors reveal">
+        <span class="au">Kefei Yan<sup>*1</sup></span> · <span class="au">Frank F. Yang<sup>*1</sup></span> · <span class="au">Yiyang Wang<sup>1</sup></span> · <span class="au">Ziyi Yang<sup>1</sup></span> · <span class="au">Kewen Liu<sup>1</sup></span> · <span class="au">Yuzhuo Chen<sup>1</sup></span> · <span class="au">Alex Cabral<sup>2</sup></span> · <span class="au">Josiah Hester<sup>1</sup></span>
+      </p>
+      <p class="affil reveal"><sup>1</sup> Georgia Institute of Technology &nbsp;&nbsp; <sup>2</sup> Massachusetts Institute of Technology &nbsp;&nbsp; <sup>*</sup> equal contribution</p>
+
+      <div class="cta-row reveal">
+        <a class="btn primary" href="https://firefair.onrender.com/" target="_blank" rel="noopener">🚀 Live Demo</a>
+        <a class="btn" href="FireFair.pdf" target="_blank" rel="noopener">📄 Paper (PDF)</a>
+        <a class="btn" href="https://doi.org/10.1145/3794786.3830751" target="_blank" rel="noopener">DOI</a>
+        <a class="btn" href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-qbar reveal" title="CDC/ATSDR SVI quintiles, Q1 (most vulnerable) → Q5"><div class="qbar"><i></i><i></i><i></i><i></i><i></i></div></div>
+</header>
+
+<div class="hero-shot">
+  <div class="wrap reveal">
+    <div class="browser">
+      <div class="chrome">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="url">firefair.onrender.com</span>
+      </div>
+      <img src="assets/shot-statewide.webp" alt="FireFair live dashboard: California statewide equity-adjusted wildfire risk choropleth with Raw p̂ / Adjusted p̃ toggle" width="1920" height="1600" loading="eager">
+    </div>
+  </div>
+</div>
+
+<!-- ============ STATS ============ -->
+<div class="stats">
+  <div class="wrap">
+    <div class="stat-grid reveal">
+      <div class="stat">
+        <div class="num">75<small>%</small></div>
+        <div class="lbl">reduction of the equal-opportunity gap Δ<sub>EO</sub>: −0.155 → −0.038, with the 95% bootstrap CI crossing zero</div>
+      </div>
+      <div class="stat">
+        <div class="num">1.6<small>pp</small></div>
+        <div class="lbl">aggregate F<sub>1</sub> cost (0.741 → 0.725) — the price of wider verification access for under-served strata</div>
+      </div>
+      <div class="stat">
+        <div class="num">36<small>%</small></div>
+        <div class="lbl">of marginal-signal cell-days on the 2025 Madre Fire promoted into multimodal VLM verification</div>
+      </div>
+      <div class="stat">
+        <div class="num">2<small>days</small></div>
+        <div class="lbl">single-cell pre-ignition lead on the Madre Fire, opened by the routing score alone</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROBLEM ============ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§01 · The problem</div>
+      <h2>Aggregate accuracy hides <em>who</em> gets missed.</h2>
+      <p class="lede">Wildfire ML benchmarks report one F<sub>1</sub> averaged across geography. But when each ~4&thinsp;km grid cell is joined to its census tract and stratified by the CDC/ATSDR Social Vulnerability Index (SVI), the picture changes: at the standard threshold, the backbone recalls <b>69%</b> of ignitions in the most vulnerable quintile versus <b>91%</b> in the least vulnerable — a 22-point gap invisible to every aggregate metric.</p>
+    </div>
+    <div class="chart-card reveal">
+      <div class="chart-title">Per-quintile ignition recall at τ = 0.5 · calibration half, California test fold</div>
+      <div class="chart" role="img" aria-label="Bar chart of per-SVI-quintile recall at threshold 0.5: Q1 68.7%, Q2 70.0%, Q3 69.7%, Q4 85.8%, Q5 90.8%">
+        <div class="bar"><span class="val">68.7%</span><div class="col" style="height:68.7%"></div><span class="tick">Q1 · most vulnerable</span></div>
+        <div class="bar"><span class="val">70.0%</span><div class="col" style="height:70%"></div><span class="tick">Q2</span></div>
+        <div class="bar"><span class="val">69.7%</span><div class="col" style="height:69.7%"></div><span class="tick">Q3</span></div>
+        <div class="bar"><span class="val">85.8%</span><div class="col" style="height:85.8%"></div><span class="tick">Q4</span></div>
+        <div class="bar"><span class="val">90.8%</span><div class="col" style="height:90.8%"></div><span class="tick">Q5 · least vulnerable</span></div>
+      </div>
+      <span class="gap-callout">Δ = 22.1 pp between Q1 and Q5 — systematic under-warning of the most vulnerable communities</span>
+      <p class="chart-note">Backbone: a five-member InceptionTime + CutMix ensemble (F<sub>1</sub> = 0.741) on the California subset of the FireCastRL US Wildfire Dataset — 75-day gridMET weather sequences over 15 variables, ~4&thinsp;km cells, held-out test fold of 7,154 cell-days split into disjoint calibration and evaluation halves.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SYSTEM ============ -->
+<section id="system">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§02 · The system</div>
+      <h2>Three layers that make fairness a routing signal, not a report.</h2>
+      <p class="lede">Layers 1–2 are deterministic and always on; Layer 3 is an on-demand, chat-based agent stack whose every tool call streams live to the dispatcher. The equity audit doesn’t sit in an appendix — it decides where verification effort goes.</p>
+    </div>
+
+    <div class="layers">
+      <div class="layer reveal">
+        <span class="mode">always-on</span>
+        <div class="ln">Layer 1</div>
+        <h3>Equity-Adjusted Scoring</h3>
+        <p>Rescales the raw ignition probability by each cell’s historical per-stratum recall — an equal-opportunity–inspired post-processing collapsed into a single auditable score. Strata with lower true-positive rates get lower effective cutoffs.</p>
+        <div class="eq">p̃ = p̂ / max(r̂<sub>s(i)</sub>, r<sub>min</sub>)</div>
+      </div>
+      <div class="layer reveal">
+        <span class="mode">always-on</span>
+        <div class="ln">Layer 2</div>
+        <h3>Per-Community Routing Gates</h3>
+        <p>A cell enters the high-risk set when its adjusted score clears the threshold — operationalized as an equivalent per-community cutoff on the raw score, so the routing decision stays inspectable. Alert-triggered cells gate the VLM as a server-side hard rule.</p>
+        <div class="eq">alert ← [p̂ ≥ τ · max(r̂<sub>s(i)</sub>, r<sub>min</sub>)]</div>
+      </div>
+      <div class="layer reveal">
+        <span class="mode">on-demand</span>
+        <div class="ln">Layer 3</div>
+        <h3>Multi-Agent Verification</h3>
+        <p>A Report Agent orchestrates an Equity Agent (three-step SVI audit) and a hard-gated VLM Agent (Sentinel-2 + VIIRS evidence). Tool calls stream as Server-Sent Events — the dispatcher sees the evidence path, not just the answer.</p>
+        <div class="eq">Report ⇄ {Equity, VLM} · visible tool calls</div>
+      </div>
+    </div>
+
+    <figure class="fig reveal">
+      <img src="assets/fig2-architecture.webp" alt="FireFair architecture diagram: gridMET input feeds the InceptionTime+CutMix backbone, Layer 1 score adjustment, and Layer 2 routing gate on the left; on the right the Layer 3 Report Agent orchestrates the Equity Agent (SVI 2022 tract data) and VLM Agent (Sentinel-2 and VIIRS tiles)" loading="lazy" width="2000" height="749">
+      <figcaption><b>End-to-end architecture.</b> Solid arrows: deterministic data flow. Dashed arrows: the Report Agent’s selective tool calls — the Equity Agent on demand, the VLM Agent hard-gated on <span class="mono">alert_triggered</span>. Expensive, stochastic LLM calls stay off the critical daily batch path.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ AGENTS ============ -->
+<section id="agents">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§03 · The agents</div>
+      <h2>Every evidence stream gets its own agent, budget, and gate.</h2>
+      <p class="lede">A monolithic LLM would mix evidence of very different provenance, latency, and audit cost. FireFair assigns each stream to a specialized agent so every step of the chain is inspectable in the chat trace. All agents use native function-calling; the dispatcher can expand any raw payload.</p>
+    </div>
+    <div class="agents">
+      <div class="agent reveal">
+        <span class="glyph">🗂️</span>
+        <h3>Report Agent</h3>
+        <p>The user-facing orchestrator. Answers dispatcher questions by lazily invoking tools and sub-agents, then synthesizes a brief explicitly conditioned on the equity findings.</p>
+        <div class="tools"><span>risk_lookup</span><span>weather_trends</span><span>equity_audit</span><span>visual_analysis</span><span>firms_hotspots</span></div>
+      </div>
+      <div class="agent reveal">
+        <span class="glyph">⚖️</span>
+        <h3>Equity Agent</h3>
+        <p>Joins a cell to its SVI tract and runs a three-step audit — sample size, effect size, and interval gates — before flagging a disparity, with a stratum-adaptive tool budget.</p>
+        <div class="tools"><span>lookup_demographics</span><span>lookup_stratum_recall</span><span>test_disparity</span></div>
+      </div>
+      <div class="agent reveal">
+        <span class="glyph">🛰️</span>
+        <h3>VLM Agent</h3>
+        <p>Hard-gated on alert-triggered cells. Reads a Sentinel-2 RGB tile plus a VIIRS thermal-anomaly summary and returns typed evidence — fuel state, active fire, wildland–urban interface proximity — with a mandatory uncertainty caveat.</p>
+        <div class="tools"><span>tile_metadata</span><span>firms_summary</span><span>imagery_reliability</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="results">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§04 · Results</div>
+      <h2>75% of the disparity gone, for 1.6 points of F<sub>1</sub>.</h2>
+      <p class="lede">On the held-out evaluation half (n = 3,579), the adjusted configuration shrinks the equal-opportunity gap until it is statistically indistinguishable from zero, and lifts recall exactly where the backbone under-warned: +13.1&thinsp;pp in Q1 and +15.8&thinsp;pp in Q2, versus +1.4&thinsp;pp in already-reliable Q5.</p>
+    </div>
+
+    <div class="tbl-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>Config</th><th>F<sub>1</sub></th><th>Δ<sub>EO</sub></th><th>95% CI</th><th>ρ</th><th>Q1 reviews</th><th>Total reviews</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Raw <span class="m">p̂</span></td><td>0.741</td><td>−0.155</td><td class="mono">[−0.216, −0.098]</td><td>0.71</td><td>301</td><td>1,582</td>
+          </tr>
+          <tr class="hl">
+            <td>Adjusted <span class="m">p̃</span></td><td>0.725</td><td>−0.038<span class="delta">−75%</span></td><td class="mono">[−0.084, +0.006]</td><td>0.88</td><td>380<span class="delta">+26%</span></td><td>1,933</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tbl-cap">Held-out triage ablation (n<sub>eval</sub> = 3,579). Δ<sub>EO</sub> = Recall<sub>Q1</sub> − Recall<sub>Q5</sub> with 95% CI over 2,000 bootstrap resamples; ρ is the alert selection-rate ratio from disparate-impact analysis (1 = parity). Review counts use the per-community cutoffs. The disparity reduction is a deterministic consequence of the per-stratum cutoff geometry — not an optimization artifact.</p>
+  </div>
+</section>
+
+<!-- ============ CASE STUDIES ============ -->
+<section id="cases">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§05 · Forward-time case studies</div>
+      <h2>Two 2025 fires, two complementary modes.</h2>
+      <p class="lede">Both fires post-date the backbone’s April 2025 training cutoff — genuine forward-time evidence, with ground truth from CAL FIRE incident records and InciWeb.</p>
+    </div>
+
+    <div class="cases">
+      <div class="case reveal">
+        <span class="cs-tag">Mode A · Marginal-signal rescue</span>
+        <h3>2025 Madre Fire — San Luis Obispo</h3>
+        <p>80,779 acres. Across a 21-day window bracketing ignition, the raw threshold issued <b>zero</b> alerts. The equity-adjusted Q1 cutoff routed 38 of 105 cell-days (36.2%) into multi-agent verification instead of silence.</p>
+        <p>At the fire centroid on ignition day, <span class="mono">p̂ 0.371 → p̃ 0.540</span> clears the gate — and two days <em>before</em> ignition, <span class="mono">p̂ = 0.359</span> had already crossed it, opening a plausible pre-ignition review window on the routing score alone.</p>
+        <div class="keyline">Equity Agent: SVI Q1, racial/ethnic-minority theme, recall 0.687 · VLM: actively-burning fuel state, confirmed</div>
+      </div>
+      <div class="case reveal">
+        <span class="cs-tag">Mode B · Adaptive within-fire audit</span>
+        <h3>2025 Shasta County — Happy / Rush Fires</h3>
+        <p>Here the backbone alerts cleanly (<span class="mono">p̂ 0.913</span> adjusted on the peak day, co-occurring with a persistent VIIRS active-fire signature), so there is no missed alert to rescue. Layer 3 shifts roles: from verifying a rescue to auditing equity <em>within</em> the fire.</p>
+        <p>On the SVI-Q1 centroid the Equity Agent runs its full three-step audit and flags a racial/ethnic-minority disparity in recall; on an adjacent Q4 cell ~6&thinsp;km away, the same prompt short-circuits at the demographic lookup. The tool budget adapts to community vulnerability rather than being spent uniformly.</p>
+        <div class="keyline">Same agent stack, zero configuration change — the decision tree routes non-extremal strata straight to synthesis</div>
+      </div>
+    </div>
+
+    <figure class="fig reveal">
+      <img src="assets/fig3-chat-trace.webp" alt="Production chat trace of the FireFair Report Agent on the Madre Fire centroid: Equity Agent tool calls (lookup demographics, stratum recall, disparity test) and VLM Agent sub-tools stream live, followed by a synthesized dispatcher brief conditioned on the equity flag" loading="lazy" width="1280" height="935">
+      <figcaption><b>The production chat trace from the Madre Fire centroid</b> (SVI Q1, ignition day 2025-07-02). Answering “Why is this Madre Fire cell flagged?”, the Report Agent lazily invokes the Equity Agent (3 tool calls, 3.5&thinsp;s) and the VLM Agent (3 sub-tools, 5.4&thinsp;s), then synthesizes a brief conditioned on the equity flag. Tool calls stream live as Server-Sent Events.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ DEMO / GALLERY ============ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§06 · Live prototype</div>
+      <h2>Deployed, interactive, and honest about its evidence.</h2>
+      <p class="lede">The prototype serves daily California risk maps with a Raw <span class="m">p̂</span> / Adjusted <span class="m">p̃</span> toggle, census-tract drill-down, and the full agent chat — every screenshot below is from the live system.</p>
+    </div>
+
+    <div class="gallery">
+      <a class="shot reveal" href="assets/shot-county.webp" target="_blank" rel="noopener">
+        <img src="assets/shot-county.webp" alt="County drill-down of San Luis Obispo County showing tract-level adjusted risk choropleth around the Madre Fire area" loading="lazy" width="1600" height="1000">
+        <span class="cap"><b>County drill-down</b><span>Tract-level adjusted risk over San Luis Obispo — the Madre Fire county, Carrizo Plain in deep maroon.</span></span>
+      </a>
+      <a class="shot reveal" href="assets/shot-cell-panel.webp" target="_blank" rel="noopener">
+        <img src="assets/shot-cell-panel.webp" alt="Cell inspection panel showing raw score 0.385 versus adjusted 0.508, the 34.3% per-community threshold, and a VLM-verification-triggered banner" loading="lazy" width="1600" height="1000">
+        <span class="cap"><b>Cell-level score audit</b><span>Raw 0.385 vs. adjusted 0.508 against the Q1 cutoff — with the VLM-verification trigger stated, not hidden.</span></span>
+      </a>
+      <a class="shot reveal" href="assets/shot-agent.webp" target="_blank" rel="noopener">
+        <img src="assets/shot-agent.webp" alt="Live Report Agent conversation with visible Equity Agent and VLM Agent tool-call traces answering why a cell is flagged" loading="lazy" width="1600" height="1000">
+        <span class="cap"><b>Multi-agent chat, live</b><span>“Why is this cell flagged?” — Equity and VLM agents stream their tool calls; every payload is expandable.</span></span>
+      </a>
+      <a class="shot reveal" href="assets/shot-statewide.webp" target="_blank" rel="noopener">
+        <img src="assets/shot-statewide.webp" alt="Statewide California map of equity-adjusted wildfire ignition risk with alert-triggered cell counts in the header" loading="lazy" width="1920" height="1600">
+        <span class="cap"><b>Statewide daily triage</b><span>4,964 cells scored daily; the header counts alert-triggered cells under the equity-adjusted gate.</span></span>
+      </a>
+    </div>
+
+    <div class="demo-cta reveal">
+      <div>
+        <div class="t">Ask the Report Agent yourself.</div>
+        <div class="s">Pick any cell, hit “Why flagged?”, and watch the evidence chain stream in. Free-tier hosting — give the first load a moment.</div>
+      </div>
+      <a class="btn primary" href="https://firefair.onrender.com/" target="_blank" rel="noopener">🚀 Open the demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIBTEX ============ -->
+<section id="bibtex">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">§07 · Citation</div>
+      <h2>BibTeX</h2>
+    </div>
+    <div class="bib reveal">
+      <div class="bib-head">
+        <span>firefair.bib</span>
+        <button class="copy-btn" id="copyBib" type="button">Copy</button>
+      </div>
+      <pre id="bibText">@inproceedings{yan2026firefair,
+  <span class="k">author</span>    = <span class="v">{Yan, Kefei and Yang, Frank F. and Wang, Yiyang and Yang, Ziyi and
+               Liu, Kewen and Chen, Yuzhuo and Cabral, Alex and Hester, Josiah}</span>,
+  <span class="k">title</span>     = <span class="v">{FireFair: Equity-Adjusted Multi-Agent Triage for Wildfire
+               Ignition Forecasting}</span>,
+  <span class="k">booktitle</span> = <span class="v">{International Conference on Information Technology for
+               Social Good (GoodIT '26)}</span>,
+  <span class="k">year</span>      = <span class="v">{2026}</span>,
+  <span class="k">address</span>   = <span class="v">{Pisa, Italy}</span>,
+  <span class="k">publisher</span> = <span class="v">{ACM}</span>,
+  <span class="k">doi</span>       = <span class="v">{10.1145/3794786.3830751}</span>
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="qbar" style="opacity:.85"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="cols">
+      <div>
+        <p>FireFair advances <b>UN SDG 10</b> (reduced inequalities), <b>SDG 11</b> (sustainable cities and communities), and <b>SDG 13</b> (climate action) by making equity a first-class input to wildfire triage rather than a post-hoc filter.</p>
+        <div class="sdg"><span>SDG 10 · Reduced Inequalities</span><span>SDG 11 · Sustainable Cities</span><span>SDG 13 · Climate Action</span></div>
+      </div>
+      <div>
+        <p><a href="FireFair.pdf">Paper (PDF)</a><br>
+        <a href="https://doi.org/10.1145/3794786.3830751">doi:10.1145/3794786.3830751</a><br>
+        <a href="https://firefair.onrender.com/">Live prototype</a></p>
+      </div>
+    </div>
+    <p class="fine">© 2026 the authors. Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Published at the International Conference on Information Technology for Social Good (GoodIT ’26), Pisa, Italy.<br>
+    Screenshot map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · SVI data: CDC/ATSDR Social Vulnerability Index 2022 · Satellite evidence: ESA Sentinel-2, NASA/NOAA VIIRS via FIRMS.</p>
+  </div>
+</footer>
+
+<script>
+// scroll reveal
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} }
+},{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay = (i%6)*0.05+'s';
+  io.observe(el);
+});
+
+// copy bibtex
+document.getElementById('copyBib').addEventListener('click', async (ev)=>{
+  const txt = document.getElementById('bibText').innerText;
+  try{
+    await navigator.clipboard.writeText(txt);
+    ev.target.textContent = 'Copied ✓';
+    setTimeout(()=>ev.target.textContent='Copy', 2200);
+  }catch(_){
+    const r = document.createRange(); r.selectNode(document.getElementById('bibText'));
+    getSelection().removeAllRanges(); getSelection().addRange(r);
+  }
+});
+</script>
 </body>
 </html>
