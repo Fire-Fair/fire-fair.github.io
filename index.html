@@ -61,7 +61,7 @@ body{
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
-::selection{background:var(--ember);color:#fff}
+::selection{background:var(--ember-deep);color:#fff}
 
 .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 .mono{font-family:var(--mono)}
@@ -110,22 +110,23 @@ body{
 .hero-inner{position:relative;z-index:2;padding:64px 0 0}
 .conf-chip{
   display:inline-flex;align-items:center;gap:.7em;
+  max-width:100%;
   font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--amber);
   border:1px solid rgba(240,157,31,.4);border-radius:99px;
   padding:.45em 1.1em;
 }
-.conf-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember);animation:pulse 2.6s ease-in-out infinite}
+.conf-chip .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember);animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 h1.title{
   font-family:var(--display);
   font-optical-sizing:auto;
   font-weight:560;
-  font-size:clamp(2.3rem, 5.4vw, 4.1rem);
-  line-height:1.06;
+  font-size:clamp(32px, 5vw, 56px);
+  line-height:1.12;
   letter-spacing:-.015em;
   margin:30px 0 0;
-  max-width:19ch;
+  max-width:28ch;text-wrap:balance;
 }
 h1 .grad{
   background:linear-gradient(92deg, var(--ember) 5%, var(--amber) 90%);
@@ -135,7 +136,7 @@ h1 .grad{
   margin-top:24px;max-width:56ch;
   font-size:clamp(1.05rem, 1.6vw, 1.25rem);
   color:rgba(244,236,224,.78);
-  font-weight:300;
+  font-weight:400;
 }
 .tagline b{color:#f4ece0;font-weight:500}
 .authors{margin-top:34px;font-size:1.02rem;line-height:1.9;max-width:64ch;color:rgba(244,236,224,.9)}
@@ -147,7 +148,7 @@ h1 .grad{
 }
 .authors a:hover{color:var(--amber);text-decoration-color:var(--amber)}
 .authors sup{color:var(--amber);font-family:var(--mono);font-size:.68em}
-.affil{margin-top:6px;font-size:.88rem;color:rgba(244,236,224,.55);font-family:var(--mono)}
+.affil{margin-top:6px;font-size:15px;color:rgba(244,236,224,.6);font-family:var(--serif)}
 .affil sup{color:var(--amber)}
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .btn{
@@ -159,7 +160,7 @@ h1 .grad{
 }
 .btn:hover{transform:translateY(-2px);border-color:rgba(244,236,224,.55)}
 .btn.primary{
-  background:linear-gradient(94deg, var(--ember-deep), var(--ember) 55%, #ef6a1e);
+  background:linear-gradient(94deg, var(--ember-deep), #c1390a);
   border-color:transparent;box-shadow:0 8px 26px -8px rgba(224,69,14,.65);
 }
 .btn.primary:hover{box-shadow:0 12px 32px -8px rgba(224,69,14,.8)}
@@ -184,14 +185,14 @@ h1 .grad{
 .browser .chrome .dots i:nth-child(2){background:#febc2e}
 .browser .chrome .dots i:nth-child(3){background:#28c840}
 .browser .chrome .url{
-  flex:1;text-align:center;font-family:var(--mono);font-size:.74rem;color:rgba(244,236,224,.5);
+  flex:1;min-width:0;text-align:center;font-family:var(--mono);font-size:.74rem;color:rgba(244,236,224,.6);
   background:rgba(244,236,224,.07);border-radius:6px;padding:.3em 1em;max-width:420px;margin:0 auto;
 }
 .browser img{display:block;width:100%;height:auto}
 
 /* ---------- stat band ---------- */
 .stats{padding:64px 0 8px}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .stat{padding:34px 26px;border-left:1px solid var(--line)}
 .stat:first-child{border-left:none}
 .stat .num{
@@ -205,35 +206,38 @@ h1 .grad{
 section{padding:76px 0 12px}
 .kicker{
   font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ember);display:flex;align-items:center;gap:14px;
+  color:var(--ember-deep);display:flex;align-items:center;gap:14px;line-height:1.4;
 }
-.kicker::after{content:"";height:1px;flex:0 0 46px;background:var(--ember);opacity:.5}
+.kicker::after{content:"";height:1px;flex:0 1 46px;background:var(--ember);opacity:.5}
 h2{
   font-family:var(--display);font-weight:560;letter-spacing:-.01em;
   font-size:clamp(1.7rem,3.2vw,2.5rem);line-height:1.14;
-  margin:16px 0 0;max-width:24ch;
+  margin:16px 0 0;max-width:32ch;text-wrap:balance;
 }
 .lede{margin-top:20px;max-width:66ch;color:#463d31;font-size:1.12rem}
 .lede+.lede{margin-top:14px}
 .lede .m, td .m, .stat .m{font-family:var(--mono);font-size:.92em}
 a.inline{color:var(--ember-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-a.inline:hover{color:var(--ember)}
+a.inline:hover{color:var(--ember-deep);text-decoration-thickness:2px}
 
 /* recall bar chart */
 .chart-card{
+  --chart-gap:4.5%;
   margin-top:44px;background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:36px 38px 28px;
 }
-.chart-title{font-family:var(--mono);font-size:.82rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
-.chart{display:flex;align-items:flex-end;gap:4.5%;height:250px;margin-top:26px;padding-bottom:2px;border-bottom:2px solid var(--ink)}
-.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:10px;height:100%}
-.bar .val{font-family:var(--mono);font-size:.86rem;font-weight:600}
-.bar .col{width:100%;border-radius:6px 6px 0 0;min-height:4px;transform-origin:bottom;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.chart-title{font-family:var(--serif);font-size:16px;color:var(--muted)}
+.chart,.chart-ticks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--chart-gap)}
+.chart{height:250px;margin-top:40px;border-bottom:2px solid var(--ink)}
+.bar{position:relative;min-width:0;height:100%}
+.bar .val{position:absolute;bottom:calc(var(--recall) + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:.86rem;font-weight:600}
+.bar .col{position:absolute;bottom:0;width:100%;height:var(--recall);border-radius:6px 6px 0 0;min-height:4px;transform-origin:bottom;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
 .reveal:not(.on) .bar .col{transform:scaleY(0)}
 .bar:nth-child(1) .col{background:var(--q1)} .bar:nth-child(2) .col{background:var(--q2)}
 .bar:nth-child(3) .col{background:var(--q3)} .bar:nth-child(4) .col{background:var(--q4)}
 .bar:nth-child(5) .col{background:var(--q5)}
-.bar .tick{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.chart-ticks{margin-top:10px;text-align:center;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.chart-legend{display:flex;flex-wrap:wrap;gap:4px 24px;margin-top:10px;font-size:14px;color:var(--muted)}
 .chart-note{margin-top:18px;font-size:.92rem;color:var(--muted);max-width:70ch}
 .gap-callout{
   display:inline-block;margin-top:16px;font-family:var(--mono);font-size:.84rem;
@@ -244,6 +248,7 @@ a.inline:hover{color:var(--ember)}
 /* layer cards */
 .layers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
 .layer{
+  min-width:0;
   background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 28px;
   position:relative;overflow:hidden;
   transition:transform .22s ease, box-shadow .22s ease;
@@ -254,17 +259,17 @@ a.inline:hover{color:var(--ember)}
   color:var(--muted);
 }
 .layer h3{font-family:var(--display);font-weight:600;font-size:1.32rem;margin:10px 0 12px;letter-spacing:-.01em}
-.layer p{font-size:.98rem;color:#4c4336}
+.layer p{font-size:16px;color:#4c4336}
 .layer .eq{
   margin-top:16px;font-family:var(--mono);font-size:.82rem;color:var(--ember-deep);
-  background:rgba(224,69,14,.07);border-radius:8px;padding:.6em .9em;display:inline-block;
+  background:rgba(224,69,14,.07);border-radius:8px;padding:.6em .9em;display:inline-block;max-width:100%;
 }
 .layer::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
 .layer:nth-child(1)::after{background:var(--q1)}
 .layer:nth-child(2)::after{background:var(--q3)}
 .layer:nth-child(3)::after{background:var(--q4)}
 .layer .mode{
-  position:absolute;top:26px;right:24px;font-family:var(--mono);font-size:.66rem;
+  position:absolute;top:26px;right:24px;font-family:var(--mono);font-size:12px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
   border:1px solid var(--line);border-radius:99px;padding:.35em .8em;
 }
@@ -278,16 +283,17 @@ figure.fig figcaption b{color:var(--ink)}
 /* agents */
 .agents{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
 .agent{
+  min-width:0;
   border:1px solid var(--line);border-radius:16px;padding:28px;background:var(--card);
   transition:transform .22s ease, box-shadow .22s ease;
 }
 .agent:hover{transform:translateY(-4px);box-shadow:0 22px 44px -22px rgba(36,29,21,.3)}
 .agent .glyph{font-size:1.7rem}
 .agent h3{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:14px 0 10px}
-.agent p{font-size:.96rem;color:#4c4336}
+.agent p{font-size:16px;color:#4c4336}
 .agent .tools{margin-top:16px;display:flex;flex-wrap:wrap;gap:7px}
 .agent .tools span{
-  font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  font-family:var(--mono);font-size:12px;color:var(--muted);
   border:1px solid var(--line);border-radius:6px;padding:.32em .65em;background:var(--paper);
 }
 
@@ -309,13 +315,13 @@ tbody tr.hl td .delta{color:var(--ember-deep);font-family:var(--mono);font-size:
 .cases{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
 .case{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px}
 .case .cs-tag{
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ember-deep);
 }
-.case h3{font-family:var(--display);font-weight:600;font-size:1.45rem;margin:12px 0 12px;letter-spacing:-.01em}
-.case p{font-size:.98rem;color:#4c4336;margin-top:10px}
+.case h3{font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:1.25;min-height:2.5em;margin:12px 0 12px;letter-spacing:-.01em;text-wrap:balance}
+.case p{font-size:16px;color:#4c4336;margin-top:10px}
 .case .keyline{
   margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
-  font-family:var(--mono);font-size:.82rem;color:var(--ember-deep);
+  font-family:var(--serif);font-size:16px;color:var(--ember-deep);
 }
 
 /* gallery */
@@ -326,8 +332,8 @@ tbody tr.hl td .delta{color:var(--ember-deep);font-family:var(--mono);font-size:
   transition:transform .22s ease, box-shadow .22s ease;
 }
 .shot:hover{transform:translateY(-5px);box-shadow:0 26px 52px -24px rgba(36,29,21,.38)}
-.shot img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line)}
-.shot .cap{padding:18px 22px}
+.shot img{width:100%;height:auto;aspect-ratio:8/5;object-fit:contain;display:block;border-bottom:1px solid var(--line);background:var(--paper)}
+.shot .cap{display:block;padding:18px 22px}
 .shot .cap b{font-family:var(--display);font-weight:600;font-size:1.05rem;display:block}
 .shot .cap span{font-size:.88rem;color:var(--muted);display:block;margin-top:5px;line-height:1.5}
 .demo-cta{
@@ -335,6 +341,8 @@ tbody tr.hl td .delta{color:var(--ember-deep);font-family:var(--mono);font-size:
   background:linear-gradient(96deg, var(--smoke), var(--smoke-2));
   border-radius:18px;padding:34px 38px;color:#f4ece0;flex-wrap:wrap;
 }
+.demo-cta>div{flex:1 1 30rem;min-width:0}
+.demo-cta>.btn{flex:0 0 auto}
 .demo-cta .t{font-family:var(--display);font-weight:560;font-size:1.5rem;letter-spacing:-.01em}
 .demo-cta .s{color:rgba(244,236,224,.6);font-size:.95rem;margin-top:6px}
 
@@ -373,7 +381,8 @@ footer .sdg span{
   font-family:var(--mono);font-size:.7rem;border:1px solid rgba(244,236,224,.25);
   border-radius:99px;padding:.4em .9em;letter-spacing:.04em;
 }
-footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,224,.12);font-size:.8rem;color:rgba(244,236,224,.4);line-height:1.7}
+footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,224,.12);font-size:14px;color:rgba(244,236,224,.55);line-height:1.7}
+footer .fine a{overflow-wrap:anywhere}
 
 /* reveal on scroll */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -390,19 +399,39 @@ footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,
   .layers,.agents{grid-template-columns:1fr 1fr}
 }
 @media (max-width: 860px){
-  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stat{border-left:none;border-top:1px solid var(--line)}
   .stat:nth-child(1),.stat:nth-child(2){border-top:none}
   .stat:nth-child(even){border-left:1px solid var(--line)}
   .cases,.gallery{grid-template-columns:1fr}
+  .case h3{min-height:0}
+  .shot img{aspect-ratio:auto var(--shot-ratio,8/5)}
 }
 @media (max-width: 700px){
   body{font-size:1.03rem}
+  .wrap{padding:0 20px}
+  section{padding-top:48px}
+  .hero-inner{padding-top:32px}
   .topnav{display:none}
   .layers,.agents{grid-template-columns:1fr}
+  .layer,.agent,.case,figure.fig{padding:24px}
+  .chart-card{--chart-gap:8px;padding:24px 20px}
   .chart{height:190px}
-  .demo-cta{padding:28px}
+  .bar .val{font-size:12px}
+  .stat{padding:24px 20px}
+  .demo-cta{padding:24px}
+  .demo-cta>.btn{width:100%;justify-content:center}
   footer .cols{grid-template-columns:1fr}
+}
+@media (max-width: 480px){
+  .stat-grid{grid-template-columns:minmax(0,1fr)}
+  .stat{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:start;padding:20px 0}
+  .stat:nth-child(2){border-top:1px solid var(--line)}
+  .stat:nth-child(even){border-left:none}
+  .stat .lbl{margin-top:0}
+}
+@media (max-width: 420px){
+  .browser .chrome{padding-left:12px;padding-right:12px;gap:8px}
 }
 </style>
 </head>
@@ -490,12 +519,14 @@ footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,
     <div class="chart-card reveal">
       <div class="chart-title">Per-quintile ignition recall at τ = 0.5 · calibration half, California test fold</div>
       <div class="chart" role="img" aria-label="Bar chart of per-SVI-quintile recall at threshold 0.5: Q1 68.7%, Q2 70.0%, Q3 69.7%, Q4 85.8%, Q5 90.8%">
-        <div class="bar"><span class="val">68.7%</span><div class="col" style="height:68.7%"></div><span class="tick">Q1 · most vulnerable</span></div>
-        <div class="bar"><span class="val">70.0%</span><div class="col" style="height:70%"></div><span class="tick">Q2</span></div>
-        <div class="bar"><span class="val">69.7%</span><div class="col" style="height:69.7%"></div><span class="tick">Q3</span></div>
-        <div class="bar"><span class="val">85.8%</span><div class="col" style="height:85.8%"></div><span class="tick">Q4</span></div>
-        <div class="bar"><span class="val">90.8%</span><div class="col" style="height:90.8%"></div><span class="tick">Q5 · least vulnerable</span></div>
+        <div class="bar" style="--recall:68.7%"><span class="val">68.7%</span><div class="col"></div></div>
+        <div class="bar" style="--recall:70%"><span class="val">70.0%</span><div class="col"></div></div>
+        <div class="bar" style="--recall:69.7%"><span class="val">69.7%</span><div class="col"></div></div>
+        <div class="bar" style="--recall:85.8%"><span class="val">85.8%</span><div class="col"></div></div>
+        <div class="bar" style="--recall:90.8%"><span class="val">90.8%</span><div class="col"></div></div>
       </div>
+      <div class="chart-ticks"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q5</span></div>
+      <div class="chart-legend"><span>Q1 · most vulnerable</span><span>Q5 · least vulnerable</span></div>
       <span class="gap-callout">Δ = 22.1 pp between Q1 and Q5 — systematic under-warning of the most vulnerable communities</span>
       <p class="chart-note">Backbone: a five-member InceptionTime + CutMix ensemble (F<sub>1</sub> = 0.741) on the California subset of the FireCastRL US Wildfire Dataset — 75-day gridMET weather sequences over 15 variables, ~4&thinsp;km cells, held-out test fold of 7,154 cell-days split into disjoint calibration and evaluation halves.</p>
     </div>
@@ -621,7 +652,7 @@ footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,
       <div class="case reveal">
         <span class="cs-tag">Mode B · Adaptive within-fire audit</span>
         <h3>2025 Shasta County — Happy / Rush Fires</h3>
-        <p>Here the backbone alerts cleanly (<span class="mono">p̂ 0.913</span> adjusted on the peak day, co-occurring with a persistent VIIRS active-fire signature), so there is no missed alert to rescue. Layer 3 shifts roles: from verifying a rescue to auditing equity <em>within</em> the fire.</p>
+        <p>Here the backbone alerts cleanly (<span class="mono">p̃ = 0.913</span> adjusted on the peak day, co-occurring with a persistent VIIRS active-fire signature), so there is no missed alert to rescue. Layer 3 shifts roles: from verifying a rescue to auditing equity <em>within</em> the fire.</p>
         <p>On the SVI-Q1 centroid the Equity Agent runs its full three-step audit and flags a racial/ethnic-minority disparity in recall; on an adjacent Q4 cell ~6&thinsp;km away, the same prompt short-circuits at the demographic lookup. The tool budget adapts to community vulnerability rather than being spent uniformly.</p>
         <div class="keyline">Same agent stack, zero configuration change — the decision tree routes non-extremal strata straight to synthesis</div>
       </div>
@@ -657,7 +688,7 @@ footer .fine{margin-top:34px;padding-top:22px;border-top:1px solid rgba(244,236,
         <span class="cap"><b>Multi-agent chat, live</b><span>“Why is this cell flagged?” — Equity and VLM agents stream their tool calls; every payload is expandable.</span></span>
       </a>
       <a class="shot reveal" href="assets/shot-statewide.webp" target="_blank" rel="noopener">
-        <img src="assets/shot-statewide.webp" alt="Statewide California map of equity-adjusted wildfire ignition risk with alert-triggered cell counts in the header" loading="lazy" width="1920" height="1600">
+        <img src="assets/shot-statewide.webp" alt="Statewide California map of equity-adjusted wildfire ignition risk with alert-triggered cell counts in the header" loading="lazy" width="1920" height="1600" style="--shot-ratio:6/5">
         <span class="cap"><b>Statewide daily triage</b><span>4,964 cells scored daily; the header counts alert-triggered cells under the equity-adjusted gate.</span></span>
       </a>
     </div>
